@@ -71,4 +71,173 @@ footer{background:#041020;color:#b9c7d6;padding:28px 0;font-size:11px}.foot{disp
 <div class="price"><h3>Explorer</h3><div class="amount">Free</div><p>Explore public resources and demo tools.</p><ul><li>Starter productivity demos</li><li>Public resources</li></ul><a class="btn lightbtn" style="width:100%" href="#workspace">Try tools</a></div>
 <div class="price featured"><h3>Professional</h3><div class="amount">$9 <small>/ month*</small></div><p>For individuals and small teams.</p><ul><li>Planned premium tools</li><li>Expanded templates</li></ul><a class="btn gold" style="width:100%" href="#contact">Register interest</a></div>
 <div class="price"><h3>Business</h3><div class="amount">$29 <small>/ month*</small></div><p>For growing organisations.</p><ul><li>Planned team workflows</li><li>Business resources</li></ul><a class="btn lightbtn" style="width:100%" href="#contact">Enquire</a></div>
-<div class="price"><h3>Enterprise</h3><div class="amount">Custom</div><p>For larger organisations.</p><ul><li>Tailored scope</li><li>Partnership discuss
+<div class="price"><h3>Enterprise</h3><div class="amount">Custom</div><p>For larger organisations.</p><ul><li>Tailored scope</li><li>Partnership discussion</li></ul><a class="btn lightbtn" style="width:100%" href="#contact">Contact</a></div>
+</div><div class="notice">*Prices are examples, not active offers. Final features, tax, billing, refunds, support, privacy and legal terms must be established before taking payments.</div></div></section>
+
+<section class="section soft" id="about"><div class="wrap two"><div><div class="kicker">Our direction</div><h2>Built around useful outcomes.</h2><p style="color:var(--muted)">Avenqora aims to bring business productivity, digital capabilities and professional services into one accessible ecosystem. The platform will grow by testing and improving real solutions.</p></div><div class="darkbox"><h3>Our principles</h3><p>How we intend to build trust as the platform grows.</p><ul class="checklist"><li>Practical solutions over empty promises</li><li>Transparent capabilities and pricing</li><li>Privacy-conscious product design</li><li>Accessible tools across business sizes</li><li>Responsible, human-reviewed AI use</li></ul></div></div></section>
+
+<section class="cta"><div class="wrap ctaIn"><div><h2>Have a business challenge?</h2><p>Prepare an enquiry about a product idea, service or potential partnership.</p></div><a class="btn gold" href="#contact">Contact Avenqora →</a></div></section>
+
+<section class="section" id="contact"><div class="wrap"><div class="sectionHead"><div class="kicker">Get in touch</div><h2>Start a conversation.</h2><p>This demo prepares an email draft on your device. It does not send information to a server.</p></div><div class="contactGrid"><div class="contactInfo"><h3>Let's build what matters.</h3><p>Business enquiries, provider interest, partnerships and product feedback are welcome.</p><p><b>Platform:</b> Avenqora<br><b>Status:</b> Early website prototype</p><p style="font-size:10px;color:#91a3b8">Add a verified official business email address before publishing this form for public enquiries.</p></div><form class="panel" id="contactForm"><div class="field"><label for="name">Your name</label><input id="name" required placeholder="Your name"></div><div class="field"><label for="email">Work email</label><input id="email" type="email" required placeholder="you@company.com"></div><div class="field"><label for="enquiry">Enquiry type</label><select id="enquiry"><option>Business enquiry</option><option>Service provider interest</option><option>Partnership</option><option>Product feedback</option></select></div><div class="field"><label for="message">Message</label><textarea id="message" required placeholder="Tell us about your enquiry..."></textarea></div><button class="btn gold" type="submit">Prepare email draft</button></form></div></div></section>
+</main>
+<footer><div class="wrap"><div class="foot"><div><strong>AVENQORA</strong><br>Business, connected.</div><div>© <span id="year"></span> Avenqora · Concept prototype</div><a href="#home" style="color:var(--gold-light)">Back to top ↑</a></div><p class="legal">Avenqora is a proposed brand and early-stage website concept. Product descriptions, AI integrations, subscriptions, marketplace and enterprise services are subject to development and verification. No affiliation with any existing company is claimed. Brand, trademark and domain availability have not been checked. Do not submit confidential or sensitive business information through this prototype.</p></div></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+$("year").textContent=new Date().getFullYear();
+$("menu").addEventListener("click",()=>$("navlinks").classList.toggle("open"));
+document.querySelectorAll("#navlinks a").forEach(a=>a.addEventListener("click",()=>$("navlinks").classList.remove("open")));
+let activeTool="brief",lastOutput="";
+const forms={brief:"briefForm",agenda:"agendaForm",swot:"swotForm",project:"projectForm"};
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+ activeTool=btn.dataset.tool;
+ document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===btn));
+ Object.entries(forms).forEach(([k,id])=>$(id).hidden=k!==activeTool);
+ $("result").classList.remove("show");
+ $("resultActions").style.display="none";
+}));
+function val(id){return $(id).value.trim()}
+function createText(){
+ if(activeTool==="brief"){
+  if(!val("company")||!val("challenge")||!val("goal"))return "";
+  return `AVENQORA — BUSINESS BRIEF
+
+Company / project: ${val("company")}
+Industry: ${val("industry")}
+
+BUSINESS CHALLENGE
+${val("challenge")}
+
+DESIRED OUTCOME
+${val("goal")}
+
+SUGGESTED NEXT STEPS
+1. Confirm the scope and people affected.
+2. Document the current process and constraints.
+3. Compare possible approaches, cost and risks.
+4. Run a small pilot with a measurable success indicator.
+5. Review results before expanding.
+
+MEASURES TO CONSIDER
+• Time per task
+• Error or rework rate
+• Customer or team satisfaction
+• Total process cost
+
+Template-generated draft. Review before use.`;
+ }
+ if(activeTool==="agenda"){
+  if(!val("meeting")||!val("topics"))return "";
+  const topics=val("topics").split(",").map(x=>x.trim()).filter(Boolean);
+  return `MEETING AGENDA
+
+Meeting: ${val("meeting")}
+Participants: ${val("attendees")||"To be confirmed"}
+Duration: ${val("duration")}
+
+OBJECTIVE
+Agree on priorities, decisions and next actions.
+
+DISCUSSION TOPICS
+${topics.map((x,i)=>`${i+1}. ${x}`).join("\n")}
+
+CLOSING
+• Confirm decisions
+• Assign owners and due dates
+• Schedule follow-up
+
+Template-generated draft.`;
+ }
+ if(activeTool==="swot"){
+  if(!val("swotname"))return "";
+  return `SWOT ANALYSIS OUTLINE
+
+Business / project: ${val("swotname")}
+
+STRENGTHS
+${val("strengths")||"Add internal strengths."}
+
+WEAKNESSES
+${val("weaknesses")||"Add internal limitations."}
+
+OPPORTUNITIES
+${val("opportunities")||"Add external opportunities."}
+
+THREATS
+${val("threats")||"Add external risks."}
+
+NEXT STEP
+Prioritise the most important items and validate them with evidence.
+
+Template-generated outline.`;
+ }
+ if(activeTool==="project"){
+  if(!val("projectname")||!val("objective"))return "";
+  return `PROJECT PLAN STARTER
+
+Project: ${val("projectname")}
+Objective: ${val("objective")}
+Timeframe: ${val("deadline")||"To be confirmed"}
+Owner: ${val("owner")||"To be assigned"}
+
+SUGGESTED PHASES
+1. Discovery — confirm scope, users and constraints.
+2. Planning — define tasks, owners, timeline and risks.
+3. Delivery — complete agreed work and track progress.
+4. Review — test outcomes and collect feedback.
+5. Close — document results and next steps.
+
+WEEKLY CHECK-IN
+• Completed work
+• Current blockers
+• Decisions needed
+• Next priorities
+
+Template-generated starter plan.`;
+ }
+ return "";
+}
+$("generate").addEventListener("click",()=>{
+ const text=createText();
+ if(!text){alert("Please complete the required fields before creating your draft.");return;}
+ lastOutput=text;
+ $("result").textContent=text;
+ $("result").classList.add("show");
+ $("resultActions").style.display="flex";
+});
+$("reset").addEventListener("click",()=>{
+ $(forms[activeTool]).querySelectorAll("input,textarea").forEach(x=>x.value="");
+ $(forms[activeTool]).querySelectorAll("select").forEach(x=>x.selectedIndex=0);
+ $("result").textContent="";
+ $("result").classList.remove("show");
+ $("resultActions").style.display="none";
+ lastOutput="";
+});
+$("copy").addEventListener("click",async()=>{
+ try{
+  await navigator.clipboard.writeText(lastOutput);
+  $("copy").textContent="Copied";
+  setTimeout(()=>$("copy").textContent="Copy",1300);
+ }catch(e){
+  alert("Clipboard is unavailable in this browser. Please select and copy the text.");
+ }
+});
+$("download").addEventListener("click",()=>{
+ const blob=new Blob([lastOutput],{type:"text/plain"});
+ const u=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=u;
+ a.download="avenqora-workspace-draft.txt";
+ a.click();
+ URL.revokeObjectURL(u);
+});
+$("contactForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const sub=encodeURIComponent("Avenqora — "+val("enquiry"));
+ const body=encodeURIComponent("Name: "+val("name")+"\nEmail: "+val("email")+"\nEnquiry: "+val("enquiry")+"\n\n"+val("message"));
+ alert("Your email app will open with a draft. Add a verified recipient email address before sending.");
+ location.href="mailto:?subject="+sub+"&body="+body;
+});
+</script>
+</body>
+</html>
